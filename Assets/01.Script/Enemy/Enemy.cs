@@ -1,63 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
+    public List<GameObject> lifes;
+    public int remainingLife = 4;
 
-    public GameObject Enemy_prefab;
-    public GameObject[] objects;
-    public int hitcount = 0;
-    
-
+    private Vector3 lifeObjectGap = new Vector3(0.5f, 0, 0);
+    private string lifePrefabPath = "Prefabs/LifePrefab";
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
+
 
     void Start()
     {
         animator = GetComponent<Animator>();
-    }
+        Transform lifeParent = transform.Find("Lifes");
+
+        GameObject lifePrefab = Resources.Load<GameObject>(lifePrefabPath);
+
+        if (lifePrefab == null) throw new System.Exception("Cannot find LifePrefab");
+
+        Vector3 lifeObjectsCenter = (lifeObjectGap * (remainingLife - 1)) / 2;
+
+        for (int i = 0; i < remainingLife; i++)
+        {
+            GameObject life = Instantiate(lifePrefab);
+            life.transform.parent = lifeParent;
+            life.transform.position = lifeParent.position + lifeObjectGap * i - lifeObjectsCenter;
+            lifes.Add(life);
+        }
 
 
-    void Update()
-    {
-        // ¸¶¿ì½º ¿ŞÂÊ ¹öÆ° Å¬¸¯ °¨Áö
-        if (hitcount == 1)
-        {
-            TriggerExplosion();
-        }
-        if (hitcount == 2)
-        {
-            TriggerExplosion();
-        }
-        if (hitcount == 3)
-        {
-            TriggerExplosion();
-        }
-        if (hitcount == 4)
-        {
-            GameObject.Destroy(Enemy_prefab);
-        }
+
     }
 
     void TriggerExplosion()
     {
-        // ÇöÀç hitcount°¡ ¹è¿­ ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
-        if (hitcount > 0 && hitcount <= objects.Length)
+        if (remainingLife >= 0)
         {
-            // ÇØ´ç ¿ÀºêÁ§Æ®ÀÇ ¾Ö´Ï¸ŞÀÌÅÍ¸¦ °¡Á®¿Í¼­ ÅÍÁö´Â ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı
-            Animator animator = objects[hitcount - 1].GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.SetTrigger("panggg"); // "Explode"´Â ¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å ÀÌ¸§
-            }
+            Animator animator = lifes[remainingLife].GetComponent<Animator>();
+            animator.SetTrigger("Explosion");
+        }
+        if (remainingLife == 0)
+        {
+            Animator animator = lifes[0].GetComponent<Animator>();
+            StartCoroutine(Kill(animator));
         }
     }
-    public void TakeDamage(float damage)
+
+    IEnumerator Kill(Animator animator)
     {
-        // ÇÇ°İ ¾Ö´Ï¸ŞÀÌ¼Ç Æ®¸®°Å
+        yield return null; 
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        // íƒ€ê²Ÿ ìƒíƒœë¡œ ì „í™˜ë  ë•Œê¹Œì§€ ëŒ€ê¸°
+        while (stateInfo.IsName("LifeExplosion") == false) 
+        {
+            yield return null;
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        }
+
+        // íƒ€ê²Ÿ ìƒíƒœì˜ ì• ë‹ˆë©”ì´ì…˜ì´ ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
+        while (stateInfo.normalizedTime < 1.0f) 
+        {
+            yield return null;
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0); 
+        }
+
+        Debug.Log("ì• ë‹ˆë©”ì´ì…˜ ì¢…ë£Œ!");
+        Destroy(gameObject);
+    }
+    public void TakeDamage()
+    {
         animator.SetTrigger("HitTrigger");
-        Debug.Log("³ª ¸Â¾Ò¾ö");
-        hitcount++;
+        remainingLife--;
         TriggerExplosion();
-        // ¿©±â¿¡ µ¥¹ÌÁö Ã³¸® ·ÎÁ÷À» Ãß°¡
-        // ¿¹¸¦ µé¾î, Ã¼·ÂÀ» ÁÙÀÌ°Å³ª ÀûÀ» Á¦°ÅÇÏ´Â ·ÎÁ÷
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1a25eff59a09e794c9c5ef5a00c7b113
+guid: 87ae93ce67a3bab4295e10c6248b0a60
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5977685292049746381
-    second: KakaoTalk_20240810_210454622_01_0
+      213: -4913099330531359204
+    second: KakaoTalk_20240811_001103334_04_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,62 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KakaoTalk_20240810_210454622_01_0
+      name: KakaoTalk_20240811_001103334_04_0
       rect:
         serializedVersion: 2
-        x: 39
-        y: 42
-        width: 21
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3363c44e5eefa0da0800000000000000
-      internalID: -5977685292049746381
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: KakaoTalk_20240810_210454622_01_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 98
-        height: 98
+        x: 32
+        y: 32
+        width: 37
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 04b1a52acc3cfa9498683a4a1c026b44
-      internalID: -1137186864
+      spriteID: c160879803a21dbb0800000000000000
+      internalID: -4913099330531359204
       vertices: []
       indices: 
       edges: []
@@ -160,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8a8382ffca1bb3b40a460f6eeb9e69da
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -168,8 +133,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      KakaoTalk_20240810_210454622_01_0: -5977685292049746381
-      KakaoTalk_20240810_210454622_01_1: -1137186864
+      KakaoTalk_20240811_001103334_04_0: -4913099330531359204
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

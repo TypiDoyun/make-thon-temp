@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     public Hud hud; // Hud 인스턴스
 
     private SpriteRenderer spriteRenderer; // SpriteRenderer 추가
+    private Animator animator;
 
     void Awake()
     {
@@ -40,6 +41,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
 
         if (hud == null)
@@ -60,6 +62,14 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (animator.GetBool("IsAttacking"))
+        {
+            movement = Vector2.zero;
+            rb.velocity = Vector2.zero;
+            animator.SetBool("IsRunning", false);
+            return;
+        }
+        animator.SetBool("IsRunning", movement != Vector2.zero);
         if (isDashing)
         {
             rb.velocity = dashDirection * dashSpeed;
@@ -78,6 +88,13 @@ public class PlayerMove : MonoBehaviour
 
     void HandleInput()
     {
+        if (animator.GetBool("IsAttacking"))
+        {
+            movement = Vector2.zero;
+            rb.velocity = Vector2.zero;
+            animator.SetBool("IsRunning", false);
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.E) && !isDashing && Time.time - lastDashTime >= dashCooldown)
         {
             // E 키가 눌렸을 때 대시 실행
@@ -89,7 +106,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 대시 중이 아닐 때만 이동 방향 설정
-        if (!isDashing)
+        if (true)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
@@ -105,6 +122,13 @@ public class PlayerMove : MonoBehaviour
 
     void HandleDash()
     {
+        if (animator.GetBool("IsAttacking"))
+        {
+            movement = Vector2.zero;
+            rb.velocity = Vector2.zero;
+            animator.SetBool("IsRunning", false);
+            return;
+        }
         if (isDashing)
         {
             dashTimeLeft -= Time.deltaTime;

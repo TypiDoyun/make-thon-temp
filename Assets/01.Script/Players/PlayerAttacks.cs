@@ -21,8 +21,10 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (animator != null)
         {
-            // 애니메이션 재생
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("IsAttacking", true);
             animator.SetTrigger("Attack");
+            StartCoroutine(Wait());
             Debug.Log("Attack trigger called");
         }
         else
@@ -43,8 +45,32 @@ public class PlayerAttacks : MonoBehaviour
             Enemy enemy = hit.collider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damageAmount);
+                enemy.TakeDamage();
             }
         }
+    }
+
+    IEnumerator Wait()
+    {
+        animator.SetBool("IsRunning", false);
+        animator.SetBool("IsAttacking", true);
+        yield return null;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        // 타겟 상태로 전환될 때까지 대기
+        while (stateInfo.IsName("Attack1") == false && stateInfo.IsName("Attack2") == false)
+        {
+            yield return null;
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        }
+
+        // 타겟 상태의 애니메이션이 끝날 때까지 대기
+        while (stateInfo.IsName("Idel") == false)
+        {
+            yield return null;
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        }
+
+        animator.SetBool("IsAttacking", false);
     }
 }
